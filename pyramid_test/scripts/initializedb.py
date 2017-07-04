@@ -5,7 +5,7 @@ import transaction
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
-    )
+)
 
 from pyramid.scripts.common import parse_vars
 
@@ -14,8 +14,9 @@ from ..models import (
     get_engine,
     get_session_factory,
     get_tm_session,
-    )
-from ..models import MyModel
+)
+from ..models import Comment
+from ..models import Post
 
 
 def usage(argv):
@@ -41,5 +42,10 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        model = MyModel(name='one', value=1)
-        dbsession.add(model)
+        post = Post(title="Example post", content="This is an example post")
+        dbsession.add(post)
+        comment = Comment(
+            username="John Doe",
+            content="comment content",
+            post=post)
+        dbsession.add(comment)
