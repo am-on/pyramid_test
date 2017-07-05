@@ -28,20 +28,15 @@
     <div class="starter-template">
       <div class="container">
         <div class="row">
-          <div class="col-md-2">
-            <img class="logo img-responsive" src="${request.static_url('pyramid_test:static/pyramid.png')}" alt="pyramid web framework">
-          </div>
-          <div class="col-md-10">
-            <div metal:define-slot="content">No content</div>
+          <div class="col-lg-12">
+            <h1><a tal:attributes="href request.route_url('home')">
+                <span class="font-semi-bold">Pyramid</span>
+                <span class="smaller">blog</span></a></h1>
           </div>
         </div>
         <div class="row">
-          <div class="links">
-            <ul>
-              <li><i class="glyphicon glyphicon-cog icon-muted"></i><a href="https://github.com/Pylons/pyramid">Github Project</a></li>
-              <li><i class="glyphicon glyphicon-globe icon-muted"></i><a href="https://webchat.freenode.net/?channels=pyramid">IRC Channel</a></li>
-              <li><i class="glyphicon glyphicon-home icon-muted"></i><a href="https://pylonsproject.org">Pylons Project</a></li>
-            </ul>
+          <div class="col-md-12">
+            <div metal:define-slot="content">No content</div>
           </div>
         </div>
         <div class="row">

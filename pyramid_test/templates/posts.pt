@@ -1,0 +1,14 @@
+<div metal:use-macro="load: layout.pt">
+    <div metal:fill-slot="content">
+
+        <div class="content">
+            <div class="row">
+                <div tal:repeat="post posts" class="col-lg-12">
+                    <a tal:attributes="href request.route_url('post', post_id=post.id)"><h2 tal:content="post.title"></h2></a>
+                    <p tal:content="post.content"></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

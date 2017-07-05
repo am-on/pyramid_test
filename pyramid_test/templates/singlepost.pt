@@ -1,0 +1,35 @@
+<div metal:use-macro="load: layout.pt">
+    <div metal:fill-slot="content">
+
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>${post.title}</h1>
+                    <p>${post.content}</p>
+                </div>
+
+                <div class="col-lg-12">
+                    <h2>Comments: </h2>
+                    <p tal:condition="not post.comments">
+                        No comments yet - be the first to comment!
+                    </p>
+                    <div tal:repeat="comment post.comments" class="row">
+
+                        <div class="col-sm-1">
+                            <p tal:content="string:${comment.username}:"></p>
+                        </div>
+                        <div class="col-sm-11">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p tal:content="comment.content"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
