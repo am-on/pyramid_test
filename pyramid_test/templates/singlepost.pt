@@ -13,6 +13,25 @@
                     <p tal:condition="not post.comments">
                         No comments yet - be the first to comment!
                     </p>
+
+                    <form method="post"
+                          tal:attributes="action request.route_url(
+                                           'comment', post_id=post.id)">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" name="username"
+                                   class="form-control" id="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Comment:</label>
+                            <textarea class="form-control" name="content"
+                                      rows="5" id="content"></textarea>
+                        </div>
+                        <button type="submit" name="form.submitted"
+                                value="Submit" class="btn btn-default">
+                            Submit</button>
+                    </form>
+
                     <div tal:repeat="comment post.comments" class="row">
 
                         <div class="col-sm-1">

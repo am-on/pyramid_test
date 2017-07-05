@@ -32,6 +32,10 @@
             <h1><a tal:attributes="href request.route_url('home')">
                 <span class="font-semi-bold">Pyramid</span>
                 <span class="smaller">blog</span></a></h1>
+            <p class="small">
+                <a tal:attributes="href request.route_url('add')">
+                    Add new post</a>
+            </p>
           </div>
         </div>
         <div class="row">
