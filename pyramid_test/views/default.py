@@ -14,19 +14,22 @@ def index(request):
     return {'posts': posts}
 
 
-@view_config(route_name='add', renderer='../templates/addpost.pt')
+@view_config(route_name='add', renderer='../templates/addpost.pt',
+             request_method='POST', request_param='form.submitted')
 def add_post(request):
-    if 'form.submitted' in request.params:
-        post = Post()
-        post.title = request.params['title']
-        post.content = request.params['content']
-        request.dbsession.add(post)
+    post = Post()
+    post.title = request.params['title']
+    post.content = request.params['content']
+    request.dbsession.add(post)
 
-        request.dbsession.flush()
-        next_url = request.route_url('post', post_id=post.id)
+    request.dbsession.flush()
+    next_url = request.route_url('post', post_id=post.id)
 
-        return HTTPFound(location=next_url)
+    return HTTPFound(location=next_url)
 
+
+@view_config(route_name='add', renderer='../templates/addpost.pt')
+def add_post_form(request):
     return {}
 
 
@@ -40,11 +43,12 @@ def single_post(request):
     return {'post': post}
 
 
-@view_config(route_name='comment')
+@view_config(route_name='comment', request_method='POST',
+             request_param='form.submitted')
 def add_comment(request):
     post_id = request.matchdict['post_id']
     post = request.dbsession.query(Post).filter_by(id=post_id).first()
-    if post is None or 'form.submitted' not in request.params:
+    if post is None:
         raise HTTPNotFound('No such page')
 
     username = request.params['username']
