@@ -1,25 +1,19 @@
+"""Database initialization."""
+
 import os
 import sys
-import transaction
 
-from pyramid.paster import (
-    get_appsettings,
-    setup_logging,
-)
-
+from pyramid.paster import get_appsettings
+from pyramid.paster import setup_logging
 from pyramid.scripts.common import parse_vars
+from pyramid_basemodel import Base
+from pyramid_basemodel import bind_engine
 
-from ..models.meta import Base
-from ..models import (
-    get_engine,
-    get_session_factory,
-    get_tm_session,
-)
-from ..models import Comment
-from ..models import Post
+from pyramid_test.models import get_engine
 
 
 def usage(argv):
+    """Print usage instructions."""
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
@@ -27,25 +21,15 @@ def usage(argv):
 
 
 def main(argv=sys.argv):
+    """Create tables in database."""
     if len(argv) < 2:
         usage(argv)
     config_uri = argv[1]
     options = parse_vars(argv[2:])
     setup_logging(config_uri)
+
     settings = get_appsettings(config_uri, options=options)
-
     engine = get_engine(settings)
+    bind_engine(engine)
+
     Base.metadata.create_all(engine)
-
-    session_factory = get_session_factory(engine)
-
-    with transaction.manager:
-        dbsession = get_tm_session(session_factory, transaction.manager)
-
-        post = Post(title="Example post", content="This is an example post")
-        dbsession.add(post)
-        comment = Comment(
-            username="John Doe",
-            content="comment content",
-            post=post)
-        dbsession.add(comment)

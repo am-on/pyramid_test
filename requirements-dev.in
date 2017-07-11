@@ -1,0 +1,8 @@
+WebTest
+pytest
+pytest-cov
+mock
+flake8
+isort
+pipdeptree
+pip-tools

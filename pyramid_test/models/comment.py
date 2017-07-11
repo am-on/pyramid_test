@@ -1,17 +1,18 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    Text,
-    DateTime,
-    ForeignKey,
-    func,
-)
+"""Comment model definition."""
 
-from .meta import Base
+from pyramid_basemodel import Base
+from sqlalchemy import Column
+from sqlalchemy import DateTime
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import Text
+from sqlalchemy import func
 from sqlalchemy.orm import relationship
 
 
 class Comment(Base):
+    """A class representing Comment model."""
+
     __tablename__ = 'comment'
     id = Column(Integer, primary_key=True)
     username = Column(Text, nullable=False)

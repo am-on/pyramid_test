@@ -19,4 +19,6 @@ Data.fs*
 .DS_Store
 coverage
 test
-development.ini
+.cache/
+*.sqlite
+**/htmlcov/

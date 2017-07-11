@@ -1,6 +1,6 @@
 import os
-
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.txt')) as f:
@@ -19,13 +19,19 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'db-psycopg2',
+    'db-psycopg2',  # for postgresql
+    'pyramid_basemodel',
 ]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',
     'pytest-cov',
+    'mock',
+    'flake8',
+    'isort',
+    'pipdeptree',
+    'pip-tools',
 ]
 
 setup(
@@ -39,10 +45,10 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
     ],
-    author='',
+    author='Amon Stopinšek',
     author_email='',
     url='',
-    keywords='web pyramid pylons',
+    keywords='web pyramid pylons blog',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
@@ -55,7 +61,7 @@ setup(
             'main = pyramid_test:main',
         ],
         'console_scripts': [
-            'initialize_pyramid_test_db = pyramid_test.scripts.initializedb:main',
+            'initialize_pyramid_test_db = pyramid_test.scripts.initializedb:main',  # noqa
         ],
     },
 )

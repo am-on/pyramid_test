@@ -1,28 +1,34 @@
-from pyramid.response import Response
-from pyramid.view import view_config
+"""Views for blog."""
 
 from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.view import view_config
+from pyramid_basemodel import Session
 
-from ..models import Comment
-from ..models import Post
+from pyramid_test.models import Comment
+from pyramid_test.models import Post
 
 
 @view_config(route_name='home', renderer='../templates/posts.pt')
 def index(request):
-    posts = request.dbsession.query(Post).order_by(Post.id.desc()).all()
+    """Display all blogs."""
+    posts = Post.get_all()
     return {'posts': posts}
 
 
-@view_config(route_name='add', renderer='../templates/addpost.pt',
-             request_method='POST', request_param='form.submitted')
+@view_config(route_name='add',
+             request_method='POST',
+             request_param='form.submitted',
+             )
 def add_post(request):
-    post = Post()
-    post.title = request.params['title']
-    post.content = request.params['content']
-    request.dbsession.add(post)
+    """Add new post to blog."""
+    title = request.params['title']
+    content = request.params['content']
 
-    request.dbsession.flush()
+    post = Post(title=title, content=content)
+    Session.add(post)
+    Session.flush()
+
     next_url = request.route_url('post', post_id=post.id)
 
     return HTTPFound(location=next_url)
@@ -30,13 +36,15 @@ def add_post(request):
 
 @view_config(route_name='add', renderer='../templates/addpost.pt')
 def add_post_form(request):
+    """Display form for adding blog posts."""
     return {}
 
 
 @view_config(route_name='post', renderer='../templates/singlepost.pt')
 def single_post(request):
+    """Display single post with title, content and comments."""
     post_id = request.matchdict['post_id']
-    post = request.dbsession.query(Post).filter_by(id=post_id).first()
+    post = Post.get(post_id)
     if post is None:
         raise HTTPNotFound('No such page')
 
@@ -46,15 +54,16 @@ def single_post(request):
 @view_config(route_name='comment', request_method='POST',
              request_param='form.submitted')
 def add_comment(request):
+    """Add new comment to blog post."""
     post_id = request.matchdict['post_id']
-    post = request.dbsession.query(Post).filter_by(id=post_id).first()
+    post = Post.get(post_id)
     if post is None:
         raise HTTPNotFound('No such page')
 
     username = request.params['username']
     content = request.params['content']
 
-    comment = Comment(username=username, content=content, post_id=post.id)
+    comment = Comment(username=username, content=content)
     post.comments.append(comment)
 
     next_url = request.route_url('post', post_id=post.id)
