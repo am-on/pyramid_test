@@ -3,7 +3,6 @@ CONFIG = development.ini
 .DEFAULT_GOAL := build
 
 build:
-	@virtualenv -p python3.6 env
 	@python3 -m venv env
 	@env/bin/pip install --upgrade pip setuptools
 	@env/bin/pip install -r requirements.txt -e .

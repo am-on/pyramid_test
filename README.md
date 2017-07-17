@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/am-on/pyramid_test.svg?branch=master)](https://travis-ci.org/am-on/pyramid_test)
 # pyramid-test
 Simple blog in Pyramid web framework used as a playground to learn Pyramid,
 testing, and good development practices.
