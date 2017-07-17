@@ -55,7 +55,7 @@ def single_post(request):
              request_param='form.submitted')
 def add_comment(request):
     """Add new comment to blog post."""
-    post_id = request.matchdict['post_id']
+    post_id = request.params['post_id']
     post = Post.get(post_id)
     if post is None:
         raise HTTPNotFound('No such page')

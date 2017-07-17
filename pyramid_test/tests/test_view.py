@@ -70,6 +70,71 @@ class ViewPostsTests(unittest.TestCase):
         self.assertEqual(post.content, added_post.content)
         self.assertEqual(response.location, expectedResponse.location)
 
+    @mock.patch('pyramid.request')
+    def test_add_comment(self, request):
+        """Test adding new comment."""
+        from pyramid.httpexceptions import HTTPFound
+        from pyramid_test.views.default import add_comment
+        from pyramid_basemodel import Session
+        from testing import initTestingDB
+        from pyramid_test.models import Comment
+
+        initTestingDB(skip_bind=False, posts=True)
+
+        post_id = 1
+        comment = Comment(username="user",
+                          content="test comment",
+                          post_id=post_id,
+                          )
+
+        request.params = ({'form.submitted': 'Submit',
+                           'post_id': post_id,
+                           'username': comment.username,
+                           'content': comment.content,
+                           })
+
+        url = '/post/{}'.format(post_id)
+        request.route_url.return_value = url
+        expectedResponse = HTTPFound(location=url)
+
+        response = add_comment(request)
+        added_comment = (Session.query(Comment)
+                         .order_by(Comment.id.desc())
+                         .first()
+                         )
+
+        self.assertEqual(comment.post_id, added_comment.post_id)
+        self.assertEqual(comment.username, added_comment.username)
+        self.assertEqual(comment.content, added_comment.content)
+        self.assertEqual(response.location, expectedResponse.location)
+
+    @mock.patch('pyramid.request')
+    def test_add_comment_unexisting_page(self, request):
+        """Test adding new comment on unexisting page."""
+        from pyramid.httpexceptions import HTTPNotFound
+        from pyramid_test.views.default import add_comment
+        from testing import initTestingDB
+        from pyramid_test.models import Comment
+
+        initTestingDB(skip_bind=False, posts=True)
+
+        post_id = 0
+        comment = Comment(username="user",
+                          content="test comment",
+                          post_id=post_id,
+                          )
+
+        request.params = ({'form.submitted': 'Submit',
+                           'post_id': post_id,
+                           'username': comment.username,
+                           'content': comment.content,
+                           })
+
+        url = '/post/{}/comment'.format(post_id)
+        request.route_url.return_value = url
+
+        self.assertRaises(HTTPNotFound, add_comment, request)
+
     @mock.patch('pyramid_test.models.Post.get')
     def test_view_single_post(self, mock):
         """Test single post view."""
