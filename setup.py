@@ -28,6 +28,7 @@ tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',
     'pytest-cov',
+    'nose',
     'mock',
     'flake8',
     'isort',
@@ -62,7 +63,7 @@ setup(
             'main = pyramid_test:main',
         ],
         'console_scripts': [
-            'initialize_pyramid_test_db = pyramid_test.scripts.initializedb:main',  # noqa
+            'populate = pyramid_test.scripts.populate:main',  # noqa
         ],
     },
 )

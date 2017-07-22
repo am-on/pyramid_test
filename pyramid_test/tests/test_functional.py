@@ -6,7 +6,7 @@ from pyramid import testing
 from pyramid_basemodel import Session
 
 from pyramid_test import main
-from testing import initTestingDB
+from pyramid_test.testing import initTestingDB
 
 
 class FunctionalTests(unittest.TestCase):

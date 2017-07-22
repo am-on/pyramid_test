@@ -1,19 +1,15 @@
 """Populate db with dummy data."""
 
+import argparse
 import os
 import sys
 
 import transaction
-from pyramid.paster import get_appsettings
-from pyramid.paster import setup_logging
-from pyramid.scripts.common import parse_vars
-from pyramid_basemodel import Base
+from pyramid.paster import bootstrap
 from pyramid_basemodel import Session
-from pyramid_basemodel import bind_engine
 
 from pyramid_test.models import Comment
 from pyramid_test.models import Post
-from pyramid_test.models import get_engine
 
 
 lorem = """Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
@@ -63,17 +59,17 @@ def main(argv=sys.argv):
               '(example: "%s development.ini")' % (cmd, cmd))
         sys.exit(1)
 
-    config_uri = argv[1]
-    setup_logging(config_uri)
-    options = parse_vars(argv[2:])
-    setup_logging(config_uri)
-    settings = get_appsettings(config_uri, options=options)
+    parser = argparse.ArgumentParser(
+        usage='env/bin/python -m pyramid_test.scripts.populate <config>.ini')
+    parser.add_argument(
+        'config', type=str, metavar='<config>',
+        help='Pyramid application configuration file.')
 
-    engine = get_engine(settings)
-    bind_engine(engine)
-    Base.metadata.create_all(engine)
+    env = bootstrap(parser.parse_args().config)
 
     add_posts(comments=True)
+
+    env['closer']()
 
 
 if __name__ == '__main__':

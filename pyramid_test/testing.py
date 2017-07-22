@@ -1,7 +1,6 @@
 """Shared/Common testing code."""
 from pyramid_basemodel import Base
 from pyramid_basemodel import Session
-
 from sqlalchemy import create_engine
 from sqlalchemy.pool import SingletonThreadPool
 

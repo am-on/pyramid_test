@@ -1,6 +1,7 @@
 WebTest
 pytest
 pytest-cov
+nose
 mock
 flake8
 isort

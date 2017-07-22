@@ -7,4 +7,4 @@ install:
 
 script:
  - flake8 pyramid_test
- - pytest --cov --cov-report=term-missing
+ - nosetests --with-coverage

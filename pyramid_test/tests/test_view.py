@@ -46,7 +46,7 @@ class ViewPostsTests(unittest.TestCase):
         from pyramid.httpexceptions import HTTPFound
         from pyramid_test.views.default import add_post
         from pyramid_basemodel import Session
-        from testing import initTestingDB
+        from pyramid_test.testing import initTestingDB
         from pyramid_test.models import Post
 
         initTestingDB(skip_bind=False, posts=False)
@@ -76,7 +76,7 @@ class ViewPostsTests(unittest.TestCase):
         from pyramid.httpexceptions import HTTPFound
         from pyramid_test.views.default import add_comment
         from pyramid_basemodel import Session
-        from testing import initTestingDB
+        from pyramid_test.testing import initTestingDB
         from pyramid_test.models import Comment
 
         initTestingDB(skip_bind=False, posts=True)
@@ -113,7 +113,7 @@ class ViewPostsTests(unittest.TestCase):
         """Test adding new comment on unexisting page."""
         from pyramid.httpexceptions import HTTPNotFound
         from pyramid_test.views.default import add_comment
-        from testing import initTestingDB
+        from pyramid_test.testing import initTestingDB
         from pyramid_test.models import Comment
 
         initTestingDB(skip_bind=False, posts=True)

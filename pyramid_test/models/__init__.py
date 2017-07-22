@@ -1,5 +1,4 @@
 """Model initializer."""
-from sqlalchemy import engine_from_config
 from sqlalchemy.orm import configure_mappers
 
 # import or define all models here to ensure they are attached to the
@@ -10,11 +9,6 @@ from .post import Post  # noqa
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
 configure_mappers()
-
-
-def get_engine(settings, prefix='sqlalchemy.'):
-    """Return engine from config."""
-    return engine_from_config(settings, prefix)
 
 
 def includeme(config):

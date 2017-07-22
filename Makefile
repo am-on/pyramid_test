@@ -6,17 +6,23 @@ build:
 	@python3 -m venv env
 	@env/bin/pip install --upgrade pip setuptools
 	@env/bin/pip install -r requirements.txt -e .
-	@env/bin/initialize_pyramid_test_db $(CONFIG)
+	@env/bin/populate $(CONFIG)
 
 populate:
-	@env/bin/python3 pyramid_test/scripts/populate.py $(CONFIG)
+	@env/bin/populate $(CONFIG)
 
 run:
 	@env/bin/pserve $(CONFIG)
 
 test:
 	@env/bin/flake8 pyramid_test
-	@env/bin/pytest --cov --cov-report=term-missing --cov-report=html
+	@env/bin/nosetests --with-coverage \
+		--cover-package=pyramid_test \
+		--cover-html \
+		--cover-min-percentage=100 --cover-erase --cover-html
+
+
+
 
 isort:
 	@env/bin/isort pyramid_test -rc -sl
