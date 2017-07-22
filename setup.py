@@ -21,6 +21,7 @@ requires = [
     'waitress',
     'db-psycopg2',  # for postgresql
     'pyramid_basemodel',
+    'alembic',
 ]
 
 tests_require = [

@@ -53,18 +53,15 @@ def add_posts(comments=True):
         Session.flush()
 
 
-def usage(argv):
-    """Print usage instructions."""
-    cmd = os.path.basename(argv[0])
-    print('usage: %s <config_uri> [var=value]\n'
-          '(example: "%s development.ini")' % (cmd, cmd))
-    sys.exit(1)
-
-
 def main(argv=sys.argv):
     """Populate db."""
+
+    # show usage instructions
     if len(argv) < 2:
-        usage(argv)
+        cmd = os.path.basename(argv[0])
+        print('usage: %s <config_uri> [var=value]\n'
+              '(example: "%s development.ini")' % (cmd, cmd))
+        sys.exit(1)
 
     config_uri = argv[1]
     setup_logging(config_uri)

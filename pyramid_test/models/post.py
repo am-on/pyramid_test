@@ -3,8 +3,10 @@
 from pyramid_basemodel import Base
 from pyramid_basemodel import Session
 from sqlalchemy import Column
+from sqlalchemy import DateTime
 from sqlalchemy import Integer
 from sqlalchemy import Text
+from sqlalchemy import func
 
 
 class Post(Base):
@@ -14,6 +16,7 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     title = Column(Text, nullable=False)
     content = Column(Text, nullable=False)
+    posted_on = Column(DateTime, default=func.now())
 
     @classmethod
     def get_all(cls):
